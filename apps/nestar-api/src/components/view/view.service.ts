@@ -28,7 +28,7 @@ export class ViewService {
 
     public async getVisitedProperties(memberId: ObjectId, input: OrdinaryInquiry): Promise<Properties> {
         const { page, limit } = input;
-        const match: T = { viewGroup: ViewGroup.PROPERTY, memberId: memberId };
+        const match: T = { viewGroup: ViewGroup.CAR, memberId: memberId };
 
         const data: T = await this.viewModel
             .aggregate([

@@ -28,4 +28,3 @@ import FollowSchema from '../../schemas/Follow.model';
   exports: [MemberService],
 })
 export class MemberModule { }
-

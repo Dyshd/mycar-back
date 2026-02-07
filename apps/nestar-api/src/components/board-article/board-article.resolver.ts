@@ -24,7 +24,7 @@ import { shapeIntoMongoObjectId } from '../../libs/config';
 
 @Resolver()
 export class BoardArticleResolver {
-  constructor(private readonly boardArticleService: BoardArticleService) {}
+  constructor(private readonly boardArticleService: BoardArticleService) { }
 
   @UseGuards(AuthGuard)
   @Mutation(() => BoardArticle)

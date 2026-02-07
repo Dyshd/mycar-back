@@ -66,7 +66,7 @@ export class CommentService {
         }
 
         switch (input.commentGroup) {
-            case CommentGroup.PROPERTY:
+            case CommentGroup.CAR:
                 await this.propertyService.propertyStatsEditor({
                     _id: input.commentRefId,
                     targetKey: 'propertyComments',

@@ -18,7 +18,7 @@ import { AuthGuard } from '../auth/guards/auth.guard';
 export class PropertyResolver {
     constructor(private readonly propertyService: PropertyService) { } // ✅ to‘g‘ri nom
 
-    @Roles(MemberType.AGENT)
+    @Roles(MemberType.DEALER)
     @UseGuards(RolesGuard)
     @Mutation(() => Property)
     public async createProperty(
@@ -42,7 +42,7 @@ export class PropertyResolver {
         return await this.propertyService.getProperty(memberId, propertyId);
     }
 
-    @Roles(MemberType.AGENT)
+    @Roles(MemberType.DEALER)
     @UseGuards(RolesGuard)
     @Mutation(() => Property)
     public async updateProperty(
@@ -85,7 +85,7 @@ export class PropertyResolver {
         return await this.propertyService.getVisited(memberId, input);
     }
 
-    @Roles(MemberType.AGENT)
+    @Roles(MemberType.DEALER)
     @UseGuards(RolesGuard)
     @Query((returns) => Properties)
     public async getAgentProperties(

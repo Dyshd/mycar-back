@@ -40,7 +40,7 @@ export class BoardArticleService {
     private readonly memberService: MemberService,
     private readonly viewService: ViewService,
     private readonly likeService: LikeService,
-  ) {}
+  ) { }
 
   // ---------------- CREATE ----------------
   public async createBoardArticle(

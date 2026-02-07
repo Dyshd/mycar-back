@@ -55,7 +55,7 @@ export class PropertyService {
             const viewInput: ViewInput = {
                 memberId: memberId,
                 viewRefId: propertyId,
-                viewGroup: ViewGroup.PROPERTY
+                viewGroup: ViewGroup.CAR
             };
             const newView = await this.viewService.recordView(viewInput);
             if (newView) {
@@ -71,7 +71,7 @@ export class PropertyService {
             const likeInput: LikeInput = {
                 memberId: memberId,
                 likeRefId: propertyId,
-                likeGroup: LikeGroup.PROPERTY,
+                likeGroup: LikeGroup.CAR,
             };
             (targetProperty as any).meLiked = await this.likeService.checkLikeExistence(likeInput);
         }
@@ -231,7 +231,7 @@ export class PropertyService {
         const input: LikeInput = {
             memberId: memberId,
             likeRefId: likeRefId,
-            likeGroup: LikeGroup.PROPERTY,
+            likeGroup: LikeGroup.CAR,
         };
         const modifier: number = await this.likeService.toggleLike(input);
         const result = await this.propertyStatsEditor({ _id: likeRefId, targetKey: 'propertyLikes', modifier: modifier })

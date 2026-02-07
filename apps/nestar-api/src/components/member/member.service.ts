@@ -128,7 +128,7 @@ export class MemberService {
     public async getAgents(memberId: ObjectId, input: AgentsInquiry): Promise<Members> {
         const { text } = input.search;
         const match: T = {
-            memberType: MemberType.AGENT,
+            memberType: MemberType.DEALER,
             memberStatus: MemberStatus.ACTIVE,
         };
 
