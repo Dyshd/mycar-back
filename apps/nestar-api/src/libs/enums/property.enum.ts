@@ -42,3 +42,12 @@ registerEnumType(PropertyLocation, {
 	name: 'CarLocation',
 });
 
+export enum PropertyRentPeriod {
+	DAILY = 'DAILY',
+	MONTHLY = 'MONTHLY',
+	YEARLY = 'YEARLY',
+}
+
+registerEnumType(PropertyRentPeriod, {
+	name: 'PropertyRentPeriod',
+});

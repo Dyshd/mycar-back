@@ -6,7 +6,7 @@ import { Direction, Message } from '../../libs/enums/common.enum';
 import { AgentPropertiesInquiry, AllPropertiesInquiry, OrdinaryInquiry, PropertiesInquiry, PropertyInput } from '../../libs/dto/property/property.input';
 import { MemberService } from '../member/member.service';
 import { StatisticModifier, T } from '../../libs/types/common';
-import { PropertyStatus } from '../../libs/enums/property.enum';
+import { PropertyRentPeriod, PropertyStatus } from '../../libs/enums/property.enum';
 import { ViewGroup } from '../../libs/enums/view.enum';
 import { ViewService } from '../view/view.service';
 import { PropertyUpdate } from '../../libs/dto/property/property.update';
@@ -29,18 +29,32 @@ export class PropertyService {
 
     public async createProperty(input: PropertyInput): Promise<Property> {
         try {
+            // RENT bo‘lmasa
+            if (!input.propertyRent) {
+                input.constructedAt = undefined;
+                input.propertyRentPeriod = undefined;
+            } else {
+                // default MONTHLY
+                input.propertyRentPeriod =
+                    input.propertyRentPeriod ?? PropertyRentPeriod.MONTHLY;
+            }
+
             const result = await this.propertyModel.create(input);
+
             await this.memberService.memberStatusEditor({
                 _id: result.memberId,
                 targetKey: 'memberProperties',
                 modifier: 1,
             });
+
             return result;
-        } catch (err) {
+        } catch (err: any) {
             console.log('Error, Service.model:', err.message);
             throw new BadRequestException(Message.CREATE_FAILED);
         }
     }
+
+
 
     public async getProperty(memberId: ObjectId, propertyId: ObjectId): Promise<Property> {
         const search: T = {

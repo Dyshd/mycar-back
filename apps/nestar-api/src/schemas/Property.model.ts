@@ -1,23 +1,28 @@
-import { Schema } from 'mongoose';
-import { PropertyLocation, PropertyStatus, PropertyType } from '../libs/enums/property.enum';
+import { Schema } from "mongoose";
+import {
+	PropertyLocation,
+	PropertyRentPeriod,
+	PropertyStatus,
+	PropertyType,
+} from "../libs/enums/property.enum";
 
 const PropertySchema = new Schema(
 	{
 		propertyType: {
 			type: String,
-			enum: PropertyType,
+			enum: Object.values(PropertyType),
 			required: true,
 		},
 
 		propertyStatus: {
 			type: String,
-			enum: PropertyStatus,
+			enum: Object.values(PropertyStatus),
 			default: PropertyStatus.ACTIVE,
 		},
 
 		propertyLocation: {
 			type: String,
-			enum: PropertyLocation,
+			enum: Object.values(PropertyLocation),
 			required: true,
 		},
 
@@ -90,10 +95,17 @@ const PropertySchema = new Schema(
 			default: false,
 		},
 
+		// ✅ RENT PERIOD DBda saqlansin
+		propertyRentPeriod: {
+			type: String,
+			enum: Object.values(PropertyRentPeriod),
+			default: PropertyRentPeriod.MONTHLY, // xohlasa olib tashlasa ham bo‘ladi
+		},
+
 		memberId: {
 			type: Schema.Types.ObjectId,
 			required: true,
-			ref: 'Member',
+			ref: "Member",
 		},
 
 		soldAt: {
@@ -108,9 +120,12 @@ const PropertySchema = new Schema(
 			type: Date,
 		},
 	},
-	{ timestamps: true, collection: 'properties' },
+	{ timestamps: true, collection: "properties" }
 );
 
-PropertySchema.index({ propertyType: 1, propertyLocation: 1, propertyTitle: 1, propertyPrice: 1 }, { unique: true });
+PropertySchema.index(
+	{ propertyType: 1, propertyLocation: 1, propertyTitle: 1, propertyPrice: 1 },
+	{ unique: true }
+);
 
 export default PropertySchema;
