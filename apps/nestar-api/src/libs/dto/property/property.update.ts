@@ -1,12 +1,13 @@
-import { Field, InputType, Int } from "@nestjs/graphql";
-import { IsInt, IsNotEmpty, IsOptional, Length, Min } from "class-validator";
+import { Field, InputType, Int } from '@nestjs/graphql';
+import { IsInt, IsNotEmpty, IsOptional, Length, Min } from 'class-validator';
 import {
   PropertyLocation,
   PropertyRentPeriod,
   PropertyStatus,
+  PropertyTransmission,
   PropertyType,
-} from "../../enums/property.enum";
-import * as mongoose from "mongoose";
+} from '../../enums/property.enum';
+import * as mongoose from 'mongoose';
 
 @InputType()
 export class PropertyUpdate {
@@ -56,6 +57,11 @@ export class PropertyUpdate {
   @Field(() => Int, { nullable: true })
   propertyRooms?: number;
 
+  // ✅ NEW
+  @IsOptional()
+  @Field(() => PropertyTransmission, { nullable: true })
+  propertyTransmission?: PropertyTransmission;
+
   @IsOptional()
   @Field(() => [String], { nullable: true })
   propertyImages?: string[];
@@ -73,7 +79,6 @@ export class PropertyUpdate {
   @Field(() => Boolean, { nullable: true })
   propertyRent?: boolean;
 
-  // ✅ UPDATE uchun ham qo‘shiladi
   @IsOptional()
   @Field(() => PropertyRentPeriod, { nullable: true })
   propertyRentPeriod?: PropertyRentPeriod;

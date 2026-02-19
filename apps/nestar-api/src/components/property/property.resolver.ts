@@ -1,7 +1,13 @@
 import { Args, Mutation, Resolver, Query } from '@nestjs/graphql';
 import { PropertyService } from './property.service';
 import { Properties, Property } from '../../libs/dto/property/property';
-import { AgentPropertiesInquiry, AllPropertiesInquiry, OrdinaryInquiry, PropertiesInquiry, PropertyInput } from '../../libs/dto/property/property.input';
+import {
+    AgentPropertiesInquiry,
+    AllPropertiesInquiry,
+    OrdinaryInquiry,
+    PropertiesInquiry,
+    PropertyInput,
+} from '../../libs/dto/property/property.input';
 import { Roles } from '../auth/decorators/roles.decorator';
 import { MemberType } from '../../libs/enums/member.enum';
 import { RolesGuard } from '../auth/guards/roles.guard';
@@ -10,13 +16,12 @@ import { AuthMember } from '../auth/decorators/authMember.decorator';
 import { UseGuards } from '@nestjs/common';
 import { WithoutGuard } from '../auth/guards/without.guard';
 import { shapeIntoMongoObjectId } from '../../libs/config';
-import { MemberInput } from '../../libs/dto/member/member.input';
 import { PropertyUpdate } from '../../libs/dto/property/property.update';
 import { AuthGuard } from '../auth/guards/auth.guard';
 
 @Resolver()
 export class PropertyResolver {
-    constructor(private readonly propertyService: PropertyService) { } // ✅ to‘g‘ri nom
+    constructor(private readonly propertyService: PropertyService) { }
 
     @Roles(MemberType.DEALER)
     @UseGuards(RolesGuard)
@@ -26,13 +31,12 @@ export class PropertyResolver {
         @AuthMember('_id') memberId: mongoose.ObjectId,
     ): Promise<Property> {
         console.log('Mutation createProperty');
-
         input.memberId = memberId;
-        return await this.propertyService.createProperty(input); // ✅ to‘g‘ri obyekt
+        return await this.propertyService.createProperty(input);
     }
 
     @UseGuards(WithoutGuard)
-    @Query((returns) => Property)
+    @Query(() => Property)
     public async getProperty(
         @Args('propertyId') input: string,
         @AuthMember('_id') memberId: mongoose.ObjectId,
@@ -54,40 +58,39 @@ export class PropertyResolver {
         return await this.propertyService.updateProperty(memberId, input);
     }
 
-
     @UseGuards(WithoutGuard)
     @Query(() => Properties)
     public async getProperties(
         @Args('input') input: PropertiesInquiry,
         @AuthMember('_id') memberId: mongoose.ObjectId,
     ): Promise<Properties> {
-        console.log('Mutation: getProperties');
+        console.log('Query: getProperties');
         return await this.propertyService.getProperties(memberId, input);
     }
 
     @UseGuards(AuthGuard)
-    @Query((returns) => Properties)
+    @Query(() => Properties)
     public async getFavorites(
         @Args('input') input: OrdinaryInquiry,
         @AuthMember('_id') memberId: mongoose.ObjectId,
     ): Promise<Properties> {
-        console.log('Mutation: getFavorites');
+        console.log('Query: getFavorites');
         return await this.propertyService.getFavorites(memberId, input);
     }
 
     @UseGuards(AuthGuard)
-    @Query((returns) => Properties)
+    @Query(() => Properties)
     public async getVisited(
         @Args('input') input: OrdinaryInquiry,
         @AuthMember('_id') memberId: mongoose.ObjectId,
     ): Promise<Properties> {
-        console.log('Mutation: getVisited');
+        console.log('Query: getVisited');
         return await this.propertyService.getVisited(memberId, input);
     }
 
     @Roles(MemberType.DEALER)
     @UseGuards(RolesGuard)
-    @Query((returns) => Properties)
+    @Query(() => Properties)
     public async getAgentProperties(
         @Args('input') input: AgentPropertiesInquiry,
         @AuthMember('_id') memberId: mongoose.ObjectId,
@@ -104,16 +107,13 @@ export class PropertyResolver {
     ): Promise<Property> {
         console.log('Mutation: likeTargetProperty');
         const likeRefId = shapeIntoMongoObjectId(input);
-        console.log("likeRefId:", likeRefId)
         return await this.propertyService.likeTargetProperty(memberId, likeRefId);
     }
 
-
     // Admin
-
     @Roles(MemberType.ADMIN)
     @UseGuards(RolesGuard)
-    @Query((returns) => Properties)
+    @Query(() => Properties)
     public async getAllPropertiesByAdmin(
         @Args('input') input: AllPropertiesInquiry,
         @AuthMember('_id') memberId: mongoose.ObjectId,
@@ -124,7 +124,7 @@ export class PropertyResolver {
 
     @Roles(MemberType.ADMIN)
     @UseGuards(RolesGuard)
-    @Mutation((returns) => Property)
+    @Mutation(() => Property)
     public async updatePropertyByAdmin(@Args('input') input: PropertyUpdate): Promise<Property> {
         console.log('Mutation: updatePropertyByAdmin');
         input._id = shapeIntoMongoObjectId(input._id);
@@ -133,16 +133,10 @@ export class PropertyResolver {
 
     @Roles(MemberType.ADMIN)
     @UseGuards(RolesGuard)
-    @Mutation((returns) => Property)
+    @Mutation(() => Property)
     public async removePropertyByAdmin(@Args('propertyId') input: string): Promise<Property> {
         console.log('Mutation: removePropertyByAdmin');
         const propertyId = shapeIntoMongoObjectId(input);
         return await this.propertyService.removePropertyByAdmin(propertyId);
     }
-
-
-
-
 }
-
-

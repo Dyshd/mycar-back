@@ -1,13 +1,14 @@
-import { Field, Int, ObjectType } from "@nestjs/graphql";
-import type { ObjectId } from "mongoose";
+import { Field, Int, ObjectType } from '@nestjs/graphql';
+import type { ObjectId } from 'mongoose';
 import {
     PropertyLocation,
     PropertyRentPeriod,
     PropertyStatus,
+    PropertyTransmission,
     PropertyType,
-} from "../../enums/property.enum";
-import { Member, TotalConter } from "../member/member";
-import { MeLiked } from "../like/like";
+} from '../../enums/property.enum';
+import { Member, TotalConter } from '../member/member';
+import { MeLiked } from '../like/like';
 
 @ObjectType()
 export class Property {
@@ -41,6 +42,10 @@ export class Property {
     @Field(() => Int)
     propertyRooms: number;
 
+    // ✅ NEW
+    @Field(() => PropertyTransmission, { nullable: true })
+    propertyTransmission?: PropertyTransmission;
+
     @Field(() => Int)
     propertyViews: number;
 
@@ -65,7 +70,6 @@ export class Property {
     @Field(() => Boolean)
     propertyRent: boolean;
 
-    // ✅ MANA SHU YETISHMAYOTGAN FIELD (OUTPUT)
     @Field(() => PropertyRentPeriod, { nullable: true })
     propertyRentPeriod?: PropertyRentPeriod;
 
@@ -87,7 +91,6 @@ export class Property {
     @Field(() => Date, { nullable: true })
     updatedAt?: Date;
 
-    // Aggregation
     @Field(() => Member, { nullable: true })
     memberData?: Member;
 

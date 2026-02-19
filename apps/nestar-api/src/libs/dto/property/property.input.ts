@@ -1,14 +1,15 @@
-import { Field, InputType, Int } from "@nestjs/graphql";
-import { IsIn, IsInt, IsNotEmpty, IsOptional, Length, Min } from "class-validator";
+import { Field, InputType, Int } from '@nestjs/graphql';
+import { IsIn, IsInt, IsNotEmpty, IsOptional, Length, Min } from 'class-validator';
 import {
   PropertyLocation,
   PropertyRentPeriod,
   PropertyStatus,
+  PropertyTransmission,
   PropertyType,
-} from "../../enums/property.enum";
-import { ObjectId } from "mongoose";
-import { Direction } from "../../enums/common.enum";
-import { availablePropertySorts } from "../../config";
+} from '../../enums/property.enum';
+import { ObjectId } from 'mongoose';
+import { Direction } from '../../enums/common.enum';
+import { availablePropertySorts } from '../../config';
 
 @InputType()
 export class PropertyInput {
@@ -34,21 +35,29 @@ export class PropertyInput {
   @Field(() => Number)
   propertyPrice: number;
 
+  // mileage (km)
   @IsNotEmpty()
   @Field(() => Number)
   propertySquare: number;
 
+  // seats
   @IsNotEmpty()
   @IsInt()
   @Min(1)
   @Field(() => Int)
   propertyBeds: number;
 
+  // ❗eski: gear count (qoldiramiz)
   @IsNotEmpty()
   @IsInt()
   @Min(1)
   @Field(() => Int)
   propertyRooms: number;
+
+  // ✅ NEW: Transmission type
+  @IsOptional()
+  @Field(() => PropertyTransmission, { nullable: true })
+  propertyTransmission?: PropertyTransmission;
 
   @IsNotEmpty()
   @Field(() => [String])
@@ -67,7 +76,6 @@ export class PropertyInput {
   @Field(() => Boolean, { nullable: true })
   propertyRent?: boolean;
 
-  // ✅ RENT PERIOD (kunlik/oylik/yillik)
   @IsOptional()
   @Field(() => PropertyRentPeriod, { nullable: true })
   propertyRentPeriod?: PropertyRentPeriod;
@@ -114,7 +122,6 @@ export class PISearch {
   @Field(() => String, { nullable: true })
   memberId?: string;
 
-  // ✅ rentPeriod bo‘yicha filter
   @IsOptional()
   @Field(() => [PropertyRentPeriod], { nullable: true })
   rentPeriodList?: PropertyRentPeriod[];
@@ -127,6 +134,7 @@ export class PISearch {
   @Field(() => [PropertyType], { nullable: true })
   typeList?: PropertyType[];
 
+  // eski
   @IsOptional()
   @Field(() => [Int], { nullable: true })
   roomsList?: number[];
@@ -135,8 +143,12 @@ export class PISearch {
   @Field(() => [Int], { nullable: true })
   bedsList?: number[];
 
+  // ✅ NEW: transmission filter
   @IsOptional()
-  @IsIn(["wifi", "pool", "garage", "garden"], { each: true })
+  @Field(() => [PropertyTransmission], { nullable: true })
+  transmissionList?: PropertyTransmission[];
+
+  @IsOptional()
   @Field(() => [String], { nullable: true })
   options?: string[];
 

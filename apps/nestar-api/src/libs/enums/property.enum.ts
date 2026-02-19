@@ -7,19 +7,14 @@ export enum PropertyType {
 	HYBRID = 'HYBRID',
 	ELECTRIC = 'ELECTRIC',
 }
-
-registerEnumType(PropertyType, {
-	name: 'FuelType',
-});
+registerEnumType(PropertyType, { name: 'FuelType' });
 
 export enum PropertyStatus {
 	ACTIVE = 'ACTIVE',
 	SOLD = 'SOLD',
 	DELETE = 'DELETE',
 }
-registerEnumType(PropertyStatus, {
-	name: 'PropertyStatus',
-});
+registerEnumType(PropertyStatus, { name: 'PropertyStatus' });
 
 export enum PropertyLocation {
 	TASHKENT = 'TASHKENT',
@@ -37,17 +32,21 @@ export enum PropertyLocation {
 	JIZZAKH = 'JIZZAKH',
 	KARAKALPAKSTAN = 'KARAKALPAKSTAN',
 }
-
-registerEnumType(PropertyLocation, {
-	name: 'CarLocation',
-});
+registerEnumType(PropertyLocation, { name: 'CarLocation' });
 
 export enum PropertyRentPeriod {
 	DAILY = 'DAILY',
 	MONTHLY = 'MONTHLY',
 	YEARLY = 'YEARLY',
 }
+registerEnumType(PropertyRentPeriod, { name: 'PropertyRentPeriod' });
 
-registerEnumType(PropertyRentPeriod, {
-	name: 'PropertyRentPeriod',
-});
+/** ✅ NEW: Transmission */
+export enum PropertyTransmission {
+	MANUAL = 'MANUAL',
+	AUTOMATIC = 'AUTOMATIC',
+	CVT = 'CVT',
+	ROBOT_DCT = 'ROBOT_DCT',
+	TIPTRONIC = 'TIPTRONIC',
+}
+registerEnumType(PropertyTransmission, { name: 'PropertyTransmission' });
